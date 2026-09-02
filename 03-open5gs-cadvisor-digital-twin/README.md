@@ -4,6 +4,7 @@ A multi-architecture 5G Core Digital Twin deployment (Open5GS) featuring contain
 
 ![Grafana CPU & Memory Telemetry](docs/telemetry-dashboard-1.png)
 ![Grafana Network Traffic Telemetry](docs/telemetry-dashboard-2.png)
+![Prometheus Target Health](docs/prometheus-targets.png)
 
 ## Architecture & Service Topology
 
