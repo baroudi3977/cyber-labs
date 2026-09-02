@@ -40,7 +40,10 @@ sudo modprobe tun
 
 # 3. Launch the complete digital twin stack
 docker compose up -d
-Monitoring Interfaces
+```
+
+## Monitoring Interfaces
+
 Grafana Dashboards: http://localhost:3000 (Default credentials: admin / admin)
 
 Prometheus Target Health: http://localhost:9090/targets
