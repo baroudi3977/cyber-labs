@@ -1,29 +1,10 @@
+# Open5GS 5G Core Digital Twin & Telemetry Stack
+
 ![Docker Active Containers](docs/docker-active-containers.png)
 ![Prometheus Target Health](docs/prometheus-targets.png)
 ![Grafana CPU & Memory Telemetry](docs/telemetry-dashboard-1.png)
 ![Grafana Network Traffic Telemetry](docs/telemetry-dashboard-2.png)
 
-# Open5GS 5G Core Digital Twin & Telemetry Stack
-
-```text
-[+] Running 8/8
- ✔ Network 03-open5gs-cadvisor-digital-twin_ran_twin_net  Created                             0.3s
- ✔ Container open5gs-db                                    Started                             4.0s
- ✔ Container twin-telemetry-grafana                        Started                             5.4s
- ✔ Container twin-telemetry-cadvisor                       Started                             4.7s
- ✔ Container twin-telemetry-prometheus                     Started                             6.1s
- ✔ Container vRAN-UPF                                      Started                             6.7s
- ✔ Container vRAN-NRF                                      Started                             6.7s
- ✔ Container vRAN-AMF                                      Started                             6.8s
-NAME                      IMAGE                              COMMAND                  SERVICE
-open5gs-db                mongo:6.0                          "docker-entrypoint.s…"   open5gs-db
-twin-telemetry-cadvisor   gcr.io/cadvisor/cadvisor:v0.49.1   "/usr/bin/cadvisor -…"   twin-telemetry-cadvisor
-twin-telemetry-grafana    grafana/grafana:latest             "/run.sh"                twin-telemetry-grafana
-twin-telemetry-prometheus prom/prometheus:latest             "/bin/prometheus --c…"   twin-telemetry-prometheus
-vRAN-AMF                  ghcr.io/borjis131/amf:latest       "entrypoint.sh -c /e…"   vRAN-AMF
-vRAN-NRF                  ghcr.io/borjis131/nrf:latest       "open5gs-nrfd -c /et…"   vRAN-NRF
-vRAN-UPF                  ghcr.io/borjis131/upf:latest       "entrypoint.sh -c /e…"   vRAN-UPF
-```
 ## Architecture & Service Topology
 
 The stack operates on a custom Docker bridge network (`ran_twin_net`: `10.45.0.0/16`) to isolate network functions and telemetry scrapers:
@@ -59,6 +40,26 @@ sudo modprobe tun
 
 # 3. Launch the complete digital twin stack
 docker compose up -d
+
+# 4. Docker Active Containers
+Plaintext
+[+] Running 8/8
+ ✔ Network 03-open5gs-cadvisor-digital-twin_ran_twin_net  Created                             0.3s
+ ✔ Container open5gs-db                                    Started                             4.0s
+ ✔ Container twin-telemetry-grafana                        Started                             5.4s
+ ✔ Container twin-telemetry-cadvisor                       Started                             4.7s
+ ✔ Container twin-telemetry-prometheus                     Started                             6.1s
+ ✔ Container vRAN-UPF                                      Started                             6.7s
+ ✔ Container vRAN-NRF                                      Started                             6.7s
+ ✔ Container vRAN-AMF                                      Started                             6.8s
+NAME                      IMAGE                              COMMAND                  SERVICE
+open5gs-db                mongo:6.0                          "docker-entrypoint.s…"   open5gs-db
+twin-telemetry-cadvisor   gcr.io/cadvisor/cadvisor:v0.49.1   "/usr/bin/cadvisor -…"   twin-telemetry-cadvisor
+twin-telemetry-grafana    grafana/grafana:latest             "/run.sh"                twin-telemetry-grafana
+twin-telemetry-prometheus prom/prometheus:latest             "/bin/prometheus --c…"   twin-telemetry-prometheus
+vRAN-AMF                  ghcr.io/borjis131/amf:latest       "entrypoint.sh -c /e…"   vRAN-AMF
+vRAN-NRF                  ghcr.io/borjis131/nrf:latest       "open5gs-nrfd -c /et…"   vRAN-NRF
+vRAN-UPF                  ghcr.io/borjis131/upf:latest       "entrypoint.sh -c /e…"   vRAN-UPF
 ```
 
 ## Monitoring Interfaces
