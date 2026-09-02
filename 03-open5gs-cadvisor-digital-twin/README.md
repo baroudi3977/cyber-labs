@@ -42,7 +42,6 @@ sudo modprobe tun
 docker compose up -d
 
 # 4. Docker Active Containers
-Plaintext
 [+] Running 8/8
  ✔ Network 03-open5gs-cadvisor-digital-twin_ran_twin_net  Created                             0.3s
  ✔ Container open5gs-db                                    Started                             4.0s
