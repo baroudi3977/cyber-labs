@@ -1,0 +1,105 @@
+services:
+  open5gs-db:
+    image: mongo:6.0
+    container_name: open5gs-db
+    restart: unless-stopped
+    networks:
+      ran_twin_net:
+        ipv4_address: "10.45.0.2"
+
+  vRAN-AMF:
+    image: ghcr.io/borjis131/amf:latest
+    platform: linux/amd64
+    container_name: vRAN-AMF
+    privileged: true
+    restart: unless-stopped
+    depends_on:
+      - open5gs-db
+    tmpfs:
+      - /open5gs/install/var/log/open5gs
+    networks:
+      ran_twin_net:
+        ipv4_address: "10.45.0.3"
+
+  vRAN-UPF:
+    image: ghcr.io/borjis131/upf:latest
+    platform: linux/amd64
+    container_name: vRAN-UPF
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    tmpfs:
+      - /open5gs/install/var/log/open5gs
+    restart: unless-stopped
+    depends_on:
+      - open5gs-db
+    networks:
+      ran_twin_net:
+        ipv4_address: "10.45.0.4"
+
+  vRAN-NRF:
+    image: ghcr.io/borjis131/nrf:latest
+    platform: linux/arm64
+    container_name: vRAN-NRF
+    privileged: true
+    restart: unless-stopped
+    depends_on:
+      - open5gs-db
+    tmpfs:
+      - /open5gs/install/var/log/open5gs
+    networks:
+      ran_twin_net:
+        ipv4_address: "10.45.0.5"
+
+  twin-telemetry-prometheus:
+    image: prom/prometheus:latest
+    container_name: twin-telemetry-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      ran_twin_net:
+        ipv4_address: "10.45.0.10"
+
+  twin-telemetry-grafana:
+    image: grafana/grafana:latest
+    container_name: twin-telemetry-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      ran_twin_net:
+        ipv4_address: "10.45.0.11"
+
+  twin-telemetry-cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: twin-telemetry-cadvisor
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+      ran_twin_net:
+        ipv4_address: "10.45.0.12"
+
+networks:
+  ran_twin_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "10.45.0.0/16"
+
+volumes:
+  grafana-storage:
