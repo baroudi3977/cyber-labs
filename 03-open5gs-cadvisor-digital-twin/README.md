@@ -1,10 +1,8 @@
 # Open5GS 5G Core Digital Twin & Telemetry Stack
 
-A multi-architecture 5G Core Digital Twin deployment (Open5GS) featuring container resource telemetry via cAdvisor, Prometheus, and Grafana running on Kali Linux.
-
+![Prometheus Target Health](docs/prometheus-targets.png)
 ![Grafana CPU & Memory Telemetry](docs/telemetry-dashboard-1.png)
 ![Grafana Network Traffic Telemetry](docs/telemetry-dashboard-2.png)
-![Prometheus Target Health](docs/prometheus-targets.png)
 
 ## Architecture & Service Topology
 
